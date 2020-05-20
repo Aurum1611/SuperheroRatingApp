@@ -1,0 +1,17 @@
+{% extends 'polls/base1.html' %}
+
+{% block content_main %}
+
+<h2>{{question.question_text}}</h2>
+{% if error_message %} <strong>{{error_message}}</strong><br><br> {% endif %}
+<form action="{% url 'polls:vote' question.id %}" method="post">
+{% csrf_token %}
+{% for choice in question.choice_set.all %}
+    <input type="radio" name="choice" id="choice{{forloop.counter}}" value="{{choice.id}}" style="margin-left: 20px;">
+    <label for="choice{{forloop.counter}}" style="font-size: 20px;">{{choice.choice_text}}</label><br><br>
+{% endfor %} <br>
+    <input type="submit" class="btn btn-sm btn-outline-secondary" value="vote" style="margin-left: 30px; font-size: 20px;">
+</form><br>
+<a href='{% url "polls:index" %}'>Choose another question?</a>
+
+{% endblock %}
